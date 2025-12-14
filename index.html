@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>格式化工具 | JSON 格式化 & Properties ⟷ YAML 轉換</title>
+    <meta name="description" content="JSON 格式化工具與 Properties/YAML 雙向轉換器">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
+    <script src="libs/js-yaml.min.js"></script>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="header">
+            <h1>🛠️ 格式化工具</h1>
+            <p class="tagline">JSON 格式化 • Properties ⟷ YAML 轉換 • 錯誤檢查</p>
+        </header>
+
+        <!-- Section 1: JSON Formatter -->
+        <section class="tool-section json-section">
+            <div class="section-header">
+                <div class="section-title">
+                    <span class="section-icon">{ }</span>
+                    <h2>JSON 格式化</h2>
+                </div>
+                <div class="section-actions">
+                    <label class="btn upload-btn">
+                        <input type="file" id="json-file-input" accept=".json" hidden>
+                        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                            <polyline points="17,8 12,3 7,8" />
+                            <line x1="12" y1="3" x2="12" y2="15" />
+                        </svg>
+                        上傳
+                    </label>
+                    <button class="btn" id="json-paste-btn" title="貼上">
+                        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <rect x="9" y="9" width="13" height="13" rx="2" />
+                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+                        </svg>
+                        貼上
+                    </button>
+                    <button class="btn primary" id="json-format-btn">
+                        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <line x1="21" y1="10" x2="3" y2="10" />
+                            <line x1="21" y1="6" x2="3" y2="6" />
+                            <line x1="21" y1="14" x2="3" y2="14" />
+                            <line x1="21" y1="18" x2="3" y2="18" />
+                        </svg>
+                        格式化
+                    </button>
+                    <button class="btn" id="json-collapse-btn" title="全部折疊/展開">
+                        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <path d="M6 9l6 6 6-6" />
+                        </svg>
+                    </button>
+                    <button class="btn" id="json-copy-btn" title="複製">
+                        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <rect x="9" y="9" width="13" height="13" rx="2" />
+                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+                        </svg>
+                    </button>
+                    <button class="btn" id="json-clear-btn" title="清除">
+                        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <polyline points="3,6 5,6 21,6" />
+                            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            <div class="editor-wrapper">
+                <div class="editor-container">
+                    <div class="gutter">
+                        <div class="line-numbers" id="json-line-numbers"></div>
+                        <div class="fold-gutter" id="json-fold-gutter"></div>
+                    </div>
+                    <textarea id="json-input" class="editor" placeholder="在此貼上 JSON 內容，或點擊「上傳」按鈕選擇檔案..."></textarea>
+                </div>
+                <div class="error-panel" id="json-error">
+                    <div class="error-header">
+                        <span class="error-icon">❌</span>
+                        <span class="error-title">JSON 格式錯誤</span>
+                    </div>
+                    <div class="error-content">
+                        <div class="error-line">行號: <span id="json-error-line">-</span></div>
+                        <div class="error-message" id="json-error-message"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="section-footer">
+                <span class="status" id="json-status">準備就緒</span>
+                <span class="line-count" id="json-line-count">0 行</span>
+            </div>
+        </section>
+
+        <!-- Section 2: Properties ⟷ YAML Converter -->
+        <section class="tool-section converter-section">
+            <div class="section-header">
+                <div class="section-title">
+                    <span class="section-icon">⟷</span>
+                    <h2>Properties ⟷ YAML 轉換</h2>
+                </div>
+            </div>
+            <div class="converter-container">
+                <!-- Properties Panel -->
+                <div class="converter-panel properties-panel">
+                    <div class="panel-header">
+                        <span class="format-badge properties">Properties</span>
+                        <div class="panel-actions">
+                            <label class="icon-btn" title="上傳">
+                                <input type="file" class="file-input" data-target="properties" accept=".properties"
+                                    hidden>
+                                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor"
+                                    stroke-width="2">
+                                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                                    <polyline points="17,8 12,3 7,8" />
+                                    <line x1="12" y1="3" x2="12" y2="15" />
+                                </svg>
+                            </label>
+                            <button class="icon-btn paste-btn" data-target="properties" title="貼上">
+                                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor"
+                                    stroke-width="2">
+                                    <rect x="9" y="9" width="13" height="13" rx="2" />
+                                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+                                </svg>
+                            </button>
+                            <button class="icon-btn copy-btn" data-target="properties" title="複製">
+                                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor"
+                                    stroke-width="2">
+                                    <rect x="9" y="9" width="13" height="13" rx="2" />
+                                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+                                </svg>
+                            </button>
+                            <button class="icon-btn clear-btn" data-target="properties" title="清除">
+                                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor"
+                                    stroke-width="2">
+                                    <polyline points="3,6 5,6 21,6" />
+                                    <path
+                                        d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="editor-wrapper">
+                        <div class="editor-container">
+                            <div class="line-numbers" id="properties-line-numbers"></div>
+                            <textarea id="properties-input" class="editor"
+                                placeholder="輸入 Properties 格式...&#10;&#10;例如:&#10;server.port=8080&#10;spring.datasource.url=jdbc:mysql://localhost:3306/db"></textarea>
+                        </div>
+                        <div class="error-panel compact" id="properties-error">
+                            <span class="error-icon">❌</span>
+                            <span>行 <span id="properties-error-line">-</span>: </span>
+                            <span id="properties-error-message"></span>
+                        </div>
+                    </div>
+                    <div class="panel-footer">
+                        <span class="status" id="properties-status">準備就緒</span>
+                        <span class="line-count" id="properties-line-count">0 行</span>
+                    </div>
+                </div>
+
+                <!-- Convert Buttons -->
+                <div class="convert-buttons">
+                    <button class="convert-btn" id="props-to-yaml-btn" title="Properties → YAML">
+                        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <line x1="5" y1="12" x2="19" y2="12" />
+                            <polyline points="12,5 19,12 12,19" />
+                        </svg>
+                    </button>
+                    <button class="convert-btn" id="yaml-to-props-btn" title="YAML → Properties">
+                        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <line x1="19" y1="12" x2="5" y2="12" />
+                            <polyline points="12,19 5,12 12,5" />
+                        </svg>
+                    </button>
+                </div>
+
+                <!-- YAML Panel -->
+                <div class="converter-panel yaml-panel">
+                    <div class="panel-header">
+                        <span class="format-badge yaml">YAML</span>
+                        <div class="panel-actions">
+                            <label class="icon-btn" title="上傳">
+                                <input type="file" class="file-input" data-target="yaml" accept=".yaml,.yml" hidden>
+                                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor"
+                                    stroke-width="2">
+                                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                                    <polyline points="17,8 12,3 7,8" />
+                                    <line x1="12" y1="3" x2="12" y2="15" />
+                                </svg>
+                            </label>
+                            <button class="icon-btn paste-btn" data-target="yaml" title="貼上">
+                                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor"
+                                    stroke-width="2">
+                                    <rect x="9" y="9" width="13" height="13" rx="2" />
+                                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+                                </svg>
+                            </button>
+                            <button class="icon-btn copy-btn" data-target="yaml" title="複製">
+                                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor"
+                                    stroke-width="2">
+                                    <rect x="9" y="9" width="13" height="13" rx="2" />
+                                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+                                </svg>
+                            </button>
+                            <button class="icon-btn clear-btn" data-target="yaml" title="清除">
+                                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor"
+                                    stroke-width="2">
+                                    <polyline points="3,6 5,6 21,6" />
+                                    <path
+                                        d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="editor-wrapper">
+                        <div class="editor-container">
+                            <div class="line-numbers" id="yaml-line-numbers"></div>
+                            <textarea id="yaml-input" class="editor"
+                                placeholder="輸入 YAML 格式...&#10;&#10;例如:&#10;server:&#10;  port: 8080&#10;spring:&#10;  datasource:&#10;    url: jdbc:mysql://localhost:3306/db"></textarea>
+                        </div>
+                        <div class="error-panel compact" id="yaml-error">
+                            <span class="error-icon">❌</span>
+                            <span>行 <span id="yaml-error-line">-</span>: </span>
+                            <span id="yaml-error-message"></span>
+                        </div>
+                    </div>
+                    <div class="panel-footer">
+                        <span class="status" id="yaml-status">準備就緒</span>
+                        <span class="line-count" id="yaml-line-count">0 行</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 3: Image to Base64 -->
+        <section class="tool-section image-section">
+            <div class="section-header">
+                <div class="section-title">
+                    <span class="section-icon">🖼️</span>
+                    <h2>圖片轉 Base64</h2>
+                </div>
+                <div class="section-actions">
+                    <label class="btn upload-btn">
+                        <input type="file" id="base64-file-input" accept="image/*" multiple hidden>
+                        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                            <polyline points="17,8 12,3 7,8" />
+                            <line x1="12" y1="3" x2="12" y2="15" />
+                        </svg>
+                        上傳圖片
+                    </label>
+                    <button class="btn" id="base64-copy-all-btn" title="複製全部">
+                        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <rect x="9" y="9" width="13" height="13" rx="2" />
+                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+                        </svg>
+                        複製全部
+                    </button>
+                    <button class="btn" id="base64-clear-btn" title="清除">
+                        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <polyline points="3,6 5,6 21,6" />
+                            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+                        </svg>
+                        清除
+                    </button>
+                </div>
+            </div>
+            <div class="drop-zone" id="base64-drop-zone">
+                <div class="drop-zone-content">
+                    <svg viewBox="0 0 24 24" width="48" height="48" fill="none" stroke="currentColor"
+                        stroke-width="1.5">
+                        <rect x="3" y="3" width="18" height="18" rx="2" />
+                        <circle cx="8.5" cy="8.5" r="1.5" />
+                        <path d="M21 15l-5-5L5 21" />
+                    </svg>
+                    <p>拖放圖片到這裡，或點擊上方「上傳圖片」按鈕</p>
+                    <span class="drop-zone-hint">支援 JPG、PNG、GIF、WebP 等格式，可多選</span>
+                </div>
+            </div>
+            <div class="image-preview-list" id="base64-preview-list"></div>
+            <div class="section-footer">
+                <span class="status" id="base64-status">準備就緒</span>
+                <span class="line-count" id="base64-count">0 張圖片</span>
+            </div>
+        </section>
+
+        <!-- Section 4: OCR Text Recognition -->
+        <section class="tool-section ocr-section">
+            <div class="section-header">
+                <div class="section-title">
+                    <span class="section-icon">📝</span>
+                    <h2>OCR 文字辨識</h2>
+                </div>
+                <div class="section-actions">
+                    <select id="ocr-lang" class="lang-select">
+                        <option value="chi_tra+eng" selected>正體中文 + English</option>
+                        <option value="chi_tra">正體中文 (純中文)</option>
+                        <option value="chi_sim+eng">簡體中文 + English</option>
+                        <option value="chi_sim">簡體中文 (純中文)</option>
+                        <option value="eng">English</option>
+                    </select>
+                    <label class="btn upload-btn">
+                        <input type="file" id="ocr-file-input" accept="image/*" multiple hidden>
+                        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                            <polyline points="17,8 12,3 7,8" />
+                            <line x1="12" y1="3" x2="12" y2="15" />
+                        </svg>
+                        上傳圖片
+                    </label>
+                    <button class="btn" id="ocr-copy-all-btn" title="複製全部">
+                        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <rect x="9" y="9" width="13" height="13" rx="2" />
+                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+                        </svg>
+                        複製全部
+                    </button>
+                    <button class="btn" id="ocr-clear-btn" title="清除">
+                        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <polyline points="3,6 5,6 21,6" />
+                            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+                        </svg>
+                        清除
+                    </button>
+                </div>
+            </div>
+            <div class="drop-zone" id="ocr-drop-zone">
+                <div class="drop-zone-content">
+                    <svg viewBox="0 0 24 24" width="48" height="48" fill="none" stroke="currentColor"
+                        stroke-width="1.5">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                        <polyline points="14,2 14,8 20,8" />
+                        <line x1="16" y1="13" x2="8" y2="13" />
+                        <line x1="16" y1="17" x2="8" y2="17" />
+                        <polyline points="10,9 9,9 8,9" />
+                    </svg>
+                    <p>拖放圖片到這裡進行文字辨識</p>
+                    <span class="drop-zone-hint">首次使用需下載語言模型，請耐心等待</span>
+                </div>
+            </div>
+            <div class="progress-container" id="ocr-progress-container">
+                <div class="progress-bar" id="ocr-progress-bar"></div>
+                <span class="progress-text" id="ocr-progress-text">準備中...</span>
+            </div>
+            <div class="image-preview-list ocr-results" id="ocr-preview-list"></div>
+            <div class="section-footer">
+                <span class="status" id="ocr-status">準備就緒</span>
+                <span class="line-count" id="ocr-count">0 張圖片</span>
+            </div>
+        </section>
+
+        <!-- Toast -->
+        <div class="toast" id="toast">
+            <span class="toast-icon"></span>
+            <span class="toast-message"></span>
+        </div>
+    </div>
+
+    <script src="libs/tesseract.min.js"></script>
+    <script src="app.js"></script>
+</body>
+
+</html>
