@@ -52,8 +52,8 @@ const menuItems = [
     icon: '🔄',
     label: '格式轉換',
     children: [
-      { path: '/format/props-yaml', label: 'Properties ⟷ YAML' },
-      { path: '/format/json-pojo', label: 'JSON 轉 Java POJO' }
+      { path: '/convert/props-yaml', label: 'Properties ⟷ YAML' },
+      { path: '/convert/json-pojo', label: 'JSON 轉 Java POJO' }
     ]
   }
 ]

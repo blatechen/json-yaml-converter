@@ -11,14 +11,14 @@ const routes = [
         component: () => import('../views/format/JsonFormatter.vue')
     },
     {
-        path: '/format/props-yaml',
+        path: '/convert/props-yaml',
         name: 'PropsYamlConverter',
-        component: () => import('../views/format/PropsYamlConverter.vue')
+        component: () => import('../views/convert/PropsYamlConverter.vue')
     },
     {
-        path: '/format/json-pojo',
+        path: '/convert/json-pojo',
         name: 'JsonToPojo',
-        component: () => import('../views/format/JsonToPojo.vue')
+        component: () => import('../views/convert/JsonToPojo.vue')
     },
     {
         path: '/image/base64',
