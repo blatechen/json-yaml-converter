@@ -16,6 +16,7 @@
         "mammoth": "^1.11.0",
         "marked": "^17.0.1",
         "pdfjs-dist": "^5.4.449",
+        "tesseract.js": "^7.0.0",
         "turndown": "^7.2.2",
         "vue": "^3.4.0",
         "vue-router": "^4.3.0"
