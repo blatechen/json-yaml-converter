@@ -16,7 +16,11 @@ npm install
 npm run dev
 
 # 建構生產版本
+# 建構生產版本
 npm run build
+
+# 執行 E2E 測試 (Playwright)
+npm run test:e2e
 ```
 
 開啟 http://localhost:5173 即可使用

@@ -21,6 +21,11 @@ const routes = [
         component: () => import('../views/convert/JsonToPojo.vue')
     },
     {
+        path: '/convert/markdown',
+        name: 'MarkdownConverter',
+        component: () => import('../views/convert/MarkdownConverter.vue')
+    },
+    {
         path: '/image/base64',
         name: 'ImageToBase64',
         component: () => import('../views/image/ImageToBase64.vue')
