@@ -1,7 +1,6 @@
 <template>
   <header class="header">
-    <h1>🛠️ 格式化工具</h1>
-    <p class="tagline">JSON 格式化 • Properties ⟷ YAML 轉換 • 圖片處理</p>
+    <h1>🛠️ My Kits</h1>
   </header>
 </template>
 

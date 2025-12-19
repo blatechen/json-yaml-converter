@@ -21,9 +21,24 @@ const routes = [
         component: () => import('../views/convert/JsonToPojo.vue')
     },
     {
+        path: '/convert/xml-pojo',
+        name: 'XmlToPojo',
+        component: () => import('../views/convert/XmlToPojo.vue')
+    },
+    {
         path: '/convert/markdown',
         name: 'MarkdownConverter',
         component: () => import('../views/convert/MarkdownConverter.vue')
+    },
+    {
+        path: '/convert/date',
+        name: 'DateConverter',
+        component: () => import('../views/convert/DateConverter.vue')
+    },
+    {
+        path: '/image/camera',
+        name: 'CameraCapture',
+        component: () => import('../views/image/CameraCapture.vue')
     },
     {
         path: '/image/base64',
@@ -34,6 +49,11 @@ const routes = [
         path: '/image/ocr',
         name: 'OcrRecognition',
         component: () => import('../views/image/OcrRecognition.vue')
+    },
+    {
+        path: '/learning/markdown',
+        name: 'MarkdownLearning',
+        component: () => import('../views/learning/MarkdownLearning.vue')
     }
 ]
 

@@ -1,6 +1,6 @@
 # 🛠️ 格式化工具 (Format Tools)
 
-> JSON 格式化 • Properties ⟷ YAML 轉換 • JSON 轉 Java POJO • Markdown 轉換 • 圖片轉 Base64 • OCR 文字辨識
+> JSON 格式化 • Properties ⟷ YAML 轉換 • JSON 轉 Java POJO • 日期轉換 • Markdown 轉換 • Markdown 學習 • 圖片轉 Base64 • OCR 文字辨識 • 攝影拍照
 
 基於 **Vue 3 + Vite** 的前端格式化工具集，提供多種實用的開發者工具。
 
@@ -34,12 +34,17 @@ npm run test:e2e
 
 圖片處理
 ├── 圖片轉 Base64
-└── OCR 文字辨識
+├── OCR 文字辨識
+└── 攝影拍照
 
 格式轉換
 ├── Properties ⟷ YAML
 ├── JSON 轉 Java POJO
-└── Markdown 轉換
+├── Markdown 轉換
+└── 日期轉換
+
+學習
+└── Markdown 學習
 ```
 
 ---
@@ -94,6 +99,30 @@ npm run test:e2e
 | **多語言** | 正體中文、簡體中文、英文 |
 | **進度顯示** | 即時顯示辨識進度 |
 
+### 攝影拍照
+
+| 功能 | 說明 |
+|------|------|
+| **即時鏡頭** | 使用網頁攝影機獲取實時畫面 |
+| **本地下載** | 捕捉畫面並下載為 PNG 圖片 |
+| **Base64** | 一鍵將照片轉換為 Base64 字串 |
+
+### 日期轉換
+
+| 功能 | 說明 |
+|------|------|
+| **時間戳識別** | 支援 秒(10位) 與 毫秒(13位) |
+| **多樣格式** | 預設常見格式與自訂靈活格式 |
+| **快捷工具** | 獲取當前時間戳、複製、清除 |
+
+### Markdown 學習
+
+| 功能 | 說明 |
+|------|------|
+| **本地文檔** | 內建 25 種常用/進階 Markdown 語法 |
+| **即時預覽** | 點擊展開可立即查看渲染後的效果 |
+| **正體中文** | 全面中文化說明，無需外連網站 |
+
 ---
 
 ## 🏗️ 技術架構
@@ -108,6 +137,7 @@ npm run test:e2e
 | **Mammoth** | Docx 轉 HTML |
 | **Turndown** | HTML 轉 Markdown |
 | **Maked** | Markdown 解析 |
+| **Web API** | MediaDevices (相機存取) |
 
 ---
 
@@ -115,6 +145,7 @@ npm run test:e2e
 
 | 日期 | 版本 | 說明 |
 |------|------|------|
+| 2025-12-19 | v2.3.0 | 新增 日期轉換、Markdown 學習中心、攝影拍照功能 |
 | 2025-12-17 | v2.2.0 | 新增 Markdown 轉換器 (PDF/Docx 匯入匯出) |
 | 2025-12-16 | v2.1.0 | 新增格式轉換選單、JSON 轉 POJO (支援 Lombok) |
 | 2025-12-16 | v2.0.0 | 重構為 Vue 3 + Vite |

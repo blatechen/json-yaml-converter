@@ -45,7 +45,8 @@ const menuItems = [
     label: '圖片處理',
     children: [
       { path: '/image/base64', label: '圖片轉 Base64' },
-      { path: '/image/ocr', label: 'OCR 文字辨識' }
+      { path: '/image/ocr', label: 'OCR 文字辨識' },
+      { path: '/image/camera', label: '攝影拍照' }
     ]
   },
   {
@@ -54,12 +55,21 @@ const menuItems = [
     children: [
       { path: '/convert/props-yaml', label: 'Properties ⟷ YAML' },
       { path: '/convert/json-pojo', label: 'JSON 轉 Java POJO' },
-      { path: '/convert/markdown', label: 'Markdown 格式轉換' }
+      { path: '/convert/xml-pojo', label: 'XML 轉 JAXB' },
+      { path: '/convert/markdown', label: 'Markdown 格式轉換' },
+      { path: '/convert/date', label: '日期轉換' }
+    ]
+  },
+  {
+    icon: '📚',
+    label: '學習',
+    children: [
+      { path: '/learning/markdown', label: 'Markdown 學習' }
     ]
   }
 ]
 
-const expandedGroups = ref([0, 1, 2])
+const expandedGroups = ref([0, 1, 2, 3])
 
 const toggleGroup = (index) => {
   const idx = expandedGroups.value.indexOf(index)
