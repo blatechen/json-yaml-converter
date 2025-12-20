@@ -57,7 +57,8 @@ const menuItems = [
       { path: '/convert/json-pojo', label: 'JSON 轉 Java POJO' },
       { path: '/convert/xml-pojo', label: 'XML 轉 JAXB' },
       { path: '/convert/markdown', label: 'Markdown 格式轉換' },
-      { path: '/convert/date', label: '日期轉換' }
+      { path: '/convert/date', label: '日期轉換' },
+      { path: '/convert/cron', label: 'Cron 表達式轉換' }
     ]
   },
   {

@@ -36,6 +36,11 @@ const routes = [
         component: () => import('../views/convert/DateConverter.vue')
     },
     {
+        path: '/convert/cron',
+        name: 'CronConverter',
+        component: () => import('../views/convert/CronConverter.vue')
+    },
+    {
         path: '/image/camera',
         name: 'CameraCapture',
         component: () => import('../views/image/CameraCapture.vue')
