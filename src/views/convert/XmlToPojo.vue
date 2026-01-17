@@ -17,8 +17,8 @@
         </label>
         <button class="btn" @click="pasteFromClipboard" title="貼上">
           <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
-            <rect x="9" y="9" width="13" height="13" rx="2" />
-            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+            <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2" />
+            <rect x="8" y="2" width="8" height="4" rx="1" ry="1" />
           </svg>
           貼上
         </button>
@@ -491,19 +491,8 @@ const clearAll = () => {
   border-color: rgba(247, 149, 113, 0.3);
 }
 
-.converter-layout {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1px;
-  background: var(--border-primary);
-}
 
-.input-panel,
-.output-panel {
-  background: var(--bg-secondary);
-  display: flex;
-  flex-direction: column;
-}
+/* Removed .converter-layout, .input-panel, .output-panel as they are now global */
 
 .panel-header {
   display: flex;
@@ -556,7 +545,7 @@ const clearAll = () => {
   padding: var(--space-xs) var(--space-sm);
   border: 1px solid var(--border-primary);
   border-radius: var(--radius-sm);
-  background: var(--bg-secondary);
+  background: rgba(10, 10, 10, 0.5);
   color: var(--text-primary);
   font-family: var(--font-mono);
   font-size: 0.8rem;

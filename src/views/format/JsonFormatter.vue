@@ -285,6 +285,14 @@ const clearContent = () => {
 
 <style scoped>
 .json-section {
-  border-color: rgba(210, 153, 34, 0.3);
+  border-top-color: var(--accent-violet);
+}
+
+.json-section::before {
+  border-color: var(--accent-violet);
+}
+
+.section-icon {
+  color: var(--accent-violet);
 }
 </style>

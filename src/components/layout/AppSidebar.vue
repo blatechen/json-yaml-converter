@@ -166,8 +166,9 @@ const toggleGroup = (index) => {
 }
 
 .menu-item.active {
-  background: rgba(88, 166, 255, 0.15);
+  background: rgba(79, 70, 229, 0.1);  /* indigo with 10% opacity */
   color: var(--accent-blue);
+  font-weight: 500;
 }
 
 /* Slide transition */

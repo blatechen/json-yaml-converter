@@ -6,7 +6,7 @@
         <h2>OCR 文字辨識</h2>
       </div>
       <div class="section-actions">
-        <select v-model="selectedLang" class="lang-select">
+        <select v-model="selectedLang" class="form-select">
           <option value="chi_tra+eng">正體中文 + English</option>
           <option value="chi_tra">正體中文 (純中文)</option>
           <option value="chi_sim+eng">簡體中文 + English</option>
